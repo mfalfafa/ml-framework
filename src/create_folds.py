@@ -12,7 +12,7 @@ def get_args():
 	return args
 
 def create_folds(opt):
-	df=pd.read_csv(os.path.join('input/', opt.filename))
+	df=pd.read_csv(os.path.join('input/', opt.csv_filename))
 	df['kfold']=-1
 	df=df.sample(frac=1).reset_index(drop=True)
 	y=df[opt.target_column]
@@ -20,7 +20,7 @@ def create_folds(opt):
 	for f, (t_, v_) in enumerate(kf.split(X=df, y=y)):
 		df.loc[v_, 'kfold']=f
 
-	filename=opt.filename.split('.')[0]+'_folds.csv'
+	filename=opt.csv_filename.split('.')[0]+'_folds.csv'
 	df.to_csv(os.path.join('input/', filename), index=False)
 
 if __name__=='__main__':
